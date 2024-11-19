@@ -1,0 +1,10 @@
+@Gacheta_HostAddress = https://localhost:7060
+
+GET {{Gacheta_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{Gacheta_HostAddress}}/api/gacheta
+
+###

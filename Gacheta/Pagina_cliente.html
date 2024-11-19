@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente</title>
+    <link rel="stylesheet" href="./Pagina-cliente.css">
+
+</head>
+<body>
+    <!-- partial:index.partial.html -->
+    <h1>Cliente</h1>
+    <p id="documento">
+        Documento:
+        <input type="text" name="Ndocumento">
+    </p>
+    <p id="nombre_cliente">
+        Nombre:
+        <input type="text" name="Nombre">
+    </p>
+    <p id="apellido_cliente">
+        Apellido:
+        <input type="text" name="Apellido">
+    </p>
+    <p id="celular_cliente">
+        Celular:
+        <input type="text" name="Celular">
+    </p>
+    <p id="Edad_cliente">
+        Edad:
+        <input type="number" name="Edad">
+    </p>
+    <p id="Parqueadero_cliente">
+        Parqueadero:
+        <select id="Parqueadero" name="Parqueadero">
+            <option value="1">Si</option>
+            <option value="0">No</option>
+        </select>
+    </p>
+    <p id="Sexo_cliente">
+        Sexo:
+        <input type="Text" name="Sexo">
+    </p>
+    <p id="Nacionalidad_cliente">
+        Nacionalidad:
+        <input type="Text" name="Nacionalidad">
+    </p>
+    <p id="T_documento">
+        Tipo de documento:
+        <input type="text" name="TipoDocumento">
+    </p>
+    <button id="ingresar">Ingresar cliente</button>
+    <button id="eliminar">Eliminar cliente</button>
+    <button id="buscar_por_documento">Buscar el cliente por el documento</button>
+    <button id="buscar">Buscar el cliente por el nombre y apellido</button>
+    <button id="modificar">Modificar el cliente</button>
+    <nav>
+        <p>
+            <a href="./Pagina_principal.html">Menú principal</a>
+            <a href="./Pagina_historia.html">Historia de cliente</a>
+            <a href="./Pagina_historia_cuarto.html">Historia de cuarto</a>
+        </p>
+    </nav>
+    <!-- partial -->
+    <script>
+    // Función para ingresar el cliente
+    async function ingresarCliente() {
+        const cliente = {
+            NDocumento: parseInt(document.querySelector('input[name="Ndocumento"]').value),
+            Nombre: document.querySelector('input[name="Nombre"]').value,
+            Apellido: document.querySelector('input[name="Apellido"]').value,
+            Celular: document.querySelector('input[name="Celular"]').value,
+            Edad: parseInt(document.querySelector('input[name="Edad"]').value),
+            Parqueadero: document.querySelector('select[name="Parqueadero"]').value === "1",
+            Sexo: document.querySelector('input[name="Sexo"]').value,
+            Nacionalidad: document.querySelector('input[name="Nacionalidad"]').value,
+            TipoDocumento: document.querySelector('input[name="TipoDocumento"]').value,
+        };
+
+        // Imprimir el JSON para ver si los datos están bien formateados
+        console.log("Datos a enviar:", JSON.stringify(cliente));
+
+        try {
+            const response = await fetch('https://localhost:7060/api/Cliente/nuevo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(cliente)
+            });
+
+            if (response.ok) {
+                alert('Cliente ingresado exitosamente');
+            } else {
+                const errorText = await response.text();
+                console.log('Error:', errorText);
+                alert('Error al ingresar el cliente');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            alert('Error en la solicitud');
+        }
+    }
+
+    // Función para eliminar un cliente
+    async function eliminarCliente() {
+        const documento = parseInt(document.querySelector('input[name="Ndocumento"]').value);
+
+        if (!documento) {
+            alert("Por favor ingrese un documento válido.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://localhost:7060/api/Cliente/eliminar/${documento}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                alert('Cliente eliminado exitosamente');
+            } else {
+                const errorText = await response.text();
+                console.log('Error:', errorText);
+                alert('Error al eliminar el cliente');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            alert('Error en la solicitud');
+        }
+    }
+        //Funcion para buscar datos de un cliente con nombre y apellido
+        async function buscarClienteporNombreyApellido() {
+            const nombre = document.querySelector('input[name="Nombre"]').value;
+            const apellido = document.querySelector('input[name="Apellido"]').value;
+
+            // Construir la URL con los valores de nombre y apellido
+            const url = `https://localhost:7060/api/Cliente/buscarByNombre/${nombre}/${apellido}`;
+
+            // Imprimir el valor de nombre y apellido
+            console.log('Nombre:', nombre);
+            console.log('Apellido:', apellido);
+            console.log('URL enviada:', url);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                if (response.ok) {
+                    const cliente = await response.json();
+                    console.log('Respuesta JSON recibida:', cliente);
+                    alert('Cliente encontrado: ' + JSON.stringify(cliente));
+                } else {
+                    const errorText = await response.text();
+                    console.log('Error:', errorText);
+                    alert('Error al encontrar el cliente');
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+                alert('Error en la solicitud');
+            }
+        }
+
+        //Funcion para buscar clientes por su documento
+        async function buscarClienteporDocumento() {
+            const documento = parseInt(document.querySelector('input[name="Ndocumento"]').value);
+
+            // Imprimir el valor y tipo de dato de documento
+            console.log('Valor de documento:', documento);
+            console.log('Tipo de dato de documento:', typeof documento);
+
+            // Construir la URL con el valor de documento
+            const url = `https://localhost:7060/api/Cliente/buscar/${documento}`;
+
+            // Imprimir la URL que se envía
+            console.log('URL enviada:', url);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                if (response.ok) {
+                    const cliente = await response.json();
+                    console.log('Respuesta JSON recibida:', cliente);
+                    alert('Cliente encontrado: ' + JSON.stringify(cliente));
+                } else {
+                    const errorText = await response.text();
+                    console.log('Error:', errorText);
+                    alert('Error al encontrar el cliente');
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+                alert('Error en la solicitud');
+            }
+        }
+
+        // Función para modificar los datos de un cliente
+        async function modificarCliente() {
+            const cliente = {
+                NDocumento: parseInt(document.querySelector('input[name="Ndocumento"]').value),
+                Nombre: document.querySelector('input[name="Nombre"]').value,
+                Apellido: document.querySelector('input[name="Apellido"]').value,
+                Celular: document.querySelector('input[name="Celular"]').value,
+                Edad: parseInt(document.querySelector('input[name="Edad"]').value),
+                Parqueadero: document.querySelector('select[name="Parqueadero"]').value === "1",
+                Sexo: document.querySelector('input[name="Sexo"]').value,
+                Nacionalidad: document.querySelector('input[name="Nacionalidad"]').value,
+                TipoDocumento: document.querySelector('input[name="TipoDocumento"]').value,
+            };
+
+            // Usar el NDocumento del cliente para construir la URL
+            const url = `https://localhost:7060/api/Cliente/modificar/{documento}`;
+
+            console.log('URL enviada:', url);
+            console.log("Datos a enviar:", JSON.stringify(cliente));
+
+            try {
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cliente) // Enviar el objeto cliente en el cuerpo de la solicitud
+                });
+                if (response.ok) {
+                    const clienteModificado = await response.json();
+                    console.log('Respuesta JSON recibida:', clienteModificado);
+                    alert('Cliente modificado exitosamente');
+                } else {
+                    const errorText = await response.text();
+                    console.log('Error:', errorText);
+                    alert('Error al modificar el cliente');
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+                alert('Error en la solicitud');
+            }
+        }
+
+
+    // Asignar la función de eliminar al botón correspondiente
+    document.getElementById("eliminar").onclick = eliminarCliente;
+
+    // Asignar la función de ingresar al botón correspondiente
+    document.getElementById("ingresar").onclick = ingresarCliente;
+
+    document.getElementById("buscar").onclick = buscarClienteporNombreyApellido;
+
+    document.getElementById("buscar_por_documento").onclick = buscarClienteporDocumento;
+
+        document.getElementById("modificar").onclick = modificarCliente;
+    </script>
+
+</body>
+</html>

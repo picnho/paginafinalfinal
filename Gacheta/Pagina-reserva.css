@@ -1,0 +1,144 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+input[type="text"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+input[type="date"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+
+input[type="number"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+/* Botones */
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+    button:hover {
+        background-color: #2980b9;
+    }
+
+/* Enlaces */
+a {
+    color: #3498db;
+    text-decoration: none;
+    margin-right: 15px;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Contenedor de formulario */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+/* Navegación */
+/* Enlaces como botones */
+nav a {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 0 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+    nav a:hover {
+        background-color: #2980b9;
+    }
+
+/* Centrando los enlaces en el mismo párrafo */
+nav {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    nav p {
+        display: inline-block;
+        margin: 0;
+    }
+
+
+
+/* Estilos específicos */
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+#link_cliente, #link_historia, #link_cuarto, #link_reserva {
+    margin-top: 15px;
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    form {
+        padding: 15px;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    a {
+        display: block;
+        margin: 10px 0;
+    }
+}
